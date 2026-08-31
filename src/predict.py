@@ -19,7 +19,7 @@ RISK_THRESHOLD = 0.70
 
 
 def load_model():
-    """Load the trained GeoPulse model."""
+    """Load the trained GeoPulse Random Forest model."""
 
     if not MODEL_PATH.exists():
         raise FileNotFoundError(
@@ -37,7 +37,7 @@ def predict_risk(
     rockfall_history,
     temperature,
 ):
-    """Predict rockfall risk for a single observation."""
+    """Predict rockfall risk for one observation."""
 
     model = load_model()
 
@@ -67,26 +67,68 @@ def predict_risk(
     return probability, risk_level, prediction
 
 
-if __name__ == "__main__":
+def get_number(prompt):
+    """Safely get a numeric value from the user."""
 
-    # Example test observation
+    while True:
+        try:
+            return float(input(prompt))
+        except ValueError:
+            print("Please enter a valid number.")
+
+
+def main():
+    print("\n" + "=" * 50)
+    print("        GeoPulse Rockfall Prediction")
+    print("=" * 50)
+
+    print("\nEnter the environmental conditions:\n")
+
+    slope_angle = get_number(
+        "Slope angle (degrees): "
+    )
+
+    soil_moisture = get_number(
+        "Soil moisture (%): "
+    )
+
+    rainfall = get_number(
+        "Rainfall (mm): "
+    )
+
+    rockfall_history = get_number(
+        "Rockfall history (0 = No, 1 = Yes): "
+    )
+
+    temperature = get_number(
+        "Temperature (°C): "
+    )
+
     probability, risk_level, prediction = predict_risk(
-        slope_angle=45,
-        soil_moisture=55,
-        rainfall=60,
-        rockfall_history=1,
-        temperature=21,
+        slope_angle=slope_angle,
+        soil_moisture=soil_moisture,
+        rainfall=rainfall,
+        rockfall_history=rockfall_history,
+        temperature=temperature,
     )
 
     print("\n" + "=" * 50)
-    print("GeoPulse Rockfall Prediction")
+    print("             PREDICTION RESULT")
     print("=" * 50)
 
     print(f"\nRisk Probability : {probability:.2%}")
     print(f"Risk Level       : {risk_level}")
     print(f"Prediction       : {prediction}")
 
-    if probability >= RISK_THRESHOLD:
-        print("\nALERT: Rockfall risk is above the threshold.")
+    if risk_level == "HIGH":
+        print("\n⚠️ ALERT: Rockfall risk is above the threshold.")
+    elif risk_level == "MEDIUM":
+        print("\n⚠️ WARNING: Potential rockfall risk detected.")
     else:
-        print("\nMonitoring continues. Risk is below the threshold.")
+        print("\n✓ Conditions currently indicate lower risk.")
+
+    print("\n" + "=" * 50)
+
+
+if __name__ == "__main__":
+    main()
