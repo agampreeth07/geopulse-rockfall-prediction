@@ -6,12 +6,12 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # Dataset location
-DATA_PATH = PROJECT_ROOT / "data" / "raw" / "rockfall_data.csv"
+DATA_PATH = PROJECT_ROOT / "data" / "raw" / "geopulse_synthetic_dataset.csv"
 
 
 def load_data():
-    """Load the rockfall dataset from the raw data folder."""
-    
+    """Load the GeoPulse synthetic dataset from the raw data folder."""
+
     if not DATA_PATH.exists():
         raise FileNotFoundError(
             f"Dataset not found at: {DATA_PATH}"
