@@ -90,3 +90,30 @@ Environmental Conditions
    Risk Classification
           ↓
    Streamlit Dashboard
+---
+
+## 📊 Model Performance
+
+GeoPulse was evaluated using a held-out test set from the synthetic dataset.
+
+| Metric | Result |
+| --- | ---: |
+| Dataset Size | 1,500 samples |
+| Test Set Size | 300 samples |
+| Accuracy | 69.3% |
+| ROC-AUC | 0.778 |
+
+### Classification Report
+
+| Class | Precision | Recall | F1-Score |
+| --- | ---: | ---: | ---: |
+| Safe | 0.61 | 0.63 | 0.62 |
+| Rockfall Risk | 0.75 | 0.73 | 0.74 |
+
+### Confusion Matrix
+
+```text
+                 Predicted
+               Safe   Risk
+Actual Safe     76     44
+Actual Risk     48    132
