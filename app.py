@@ -1,4 +1,4 @@
-﻿```python
+﻿
 import streamlit as st
 import sys
 from pathlib import Path
@@ -386,4 +386,4 @@ st.warning(
     "professional geological assessment, field monitoring, "
     "or emergency-management procedures."
 )
-```
+
