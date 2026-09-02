@@ -33,6 +33,7 @@ st.set_page_config(
 # --------------------------------------------------
 
 st.title("⛰️ GeoPulse")
+
 st.subheader("Rockfall Prediction & Risk Assessment")
 
 st.write(
@@ -50,6 +51,11 @@ st.divider()
 st.header("🌍 Environmental Conditions")
 
 col1, col2 = st.columns(2)
+
+
+# --------------------------------------------------
+# LEFT COLUMN
+# --------------------------------------------------
 
 with col1:
 
@@ -77,6 +83,10 @@ with col1:
         step=1.0,
     )
 
+
+# --------------------------------------------------
+# RIGHT COLUMN
+# --------------------------------------------------
 
 with col2:
 
@@ -123,27 +133,55 @@ if st.button(
 
     result_col1, result_col2, result_col3 = st.columns(3)
 
+
+    # --------------------------------------------------
+    # RISK PROBABILITY
+    # --------------------------------------------------
+
     with result_col1:
+
         st.metric(
             "Risk Probability",
             f"{probability:.2%}",
         )
 
+
+    # --------------------------------------------------
+    # RISK LEVEL
+    # --------------------------------------------------
+
     with result_col2:
+
         st.metric(
             "Risk Level",
             risk_level,
         )
 
+
+    # --------------------------------------------------
+    # PREDICTION
+    # --------------------------------------------------
+
     with result_col3:
+
         st.metric(
             "Prediction",
             prediction,
         )
 
+
+    # --------------------------------------------------
+    # PROBABILITY BAR
+    # --------------------------------------------------
+
     st.progress(
         min(int(probability * 100), 100)
     )
+
+
+    # --------------------------------------------------
+    # RISK MESSAGE
+    # --------------------------------------------------
 
     if risk_level == "HIGH":
 
@@ -176,18 +214,34 @@ st.divider()
 st.header("📈 Model Performance")
 
 st.info(
-    "Prototype evaluation using the current development dataset "
-    "of 20 samples. These results should not be interpreted as "
-    "real-world safety accuracy."
+    "Prototype evaluation using a synthetic dataset of 1,500 samples, "
+    "with 300 held-out test samples. These results are for research "
+    "and development only and should not be interpreted as real-world "
+    "safety accuracy."
 )
+
+
+# --------------------------------------------------
+# PERFORMANCE METRICS
+# --------------------------------------------------
 
 metric1, metric2 = st.columns(2)
 
+
 with metric1:
-    st.metric("Accuracy", "100%")
+
+    st.metric(
+        "Accuracy",
+        "69.3%",
+    )
+
 
 with metric2:
-    st.metric("ROC-AUC", "1.00")
+
+    st.metric(
+        "ROC-AUC",
+        "0.778",
+    )
 
 
 # --------------------------------------------------
@@ -196,37 +250,81 @@ with metric2:
 
 st.subheader("Model Evaluation Visualizations")
 
+
 image_col1, image_col2 = st.columns(2)
 
-confusion_matrix_path = RESULTS_PATH / "confusion_matrix.png"
-roc_curve_path = RESULTS_PATH / "roc_curve.png"
-feature_importance_path = RESULTS_PATH / "feature_importance.png"
 
+# --------------------------------------------------
+# RESULT FILE PATHS
+# --------------------------------------------------
+
+confusion_matrix_path = (
+    RESULTS_PATH / "confusion_matrix.png"
+)
+
+roc_curve_path = (
+    RESULTS_PATH / "roc_curve.png"
+)
+
+feature_importance_path = (
+    RESULTS_PATH / "feature_importance.png"
+)
+
+
+# --------------------------------------------------
+# LEFT VISUALIZATION COLUMN
+# --------------------------------------------------
 
 with image_col1:
 
     if confusion_matrix_path.exists():
+
         st.image(
             Image.open(confusion_matrix_path),
             caption="Confusion Matrix",
             use_container_width=True,
         )
 
+    else:
+
+        st.warning(
+            "Confusion matrix image not found."
+        )
+
+
     if roc_curve_path.exists():
+
         st.image(
             Image.open(roc_curve_path),
             caption="ROC Curve",
             use_container_width=True,
         )
 
+    else:
+
+        st.warning(
+            "ROC curve image not found."
+        )
+
+
+# --------------------------------------------------
+# RIGHT VISUALIZATION COLUMN
+# --------------------------------------------------
 
 with image_col2:
 
     if feature_importance_path.exists():
+
         st.image(
             Image.open(feature_importance_path),
             caption="Feature Importance",
             use_container_width=True,
+        )
+
+    else:
+
+        st.warning(
+            "Feature importance image not found."
         )
 
 
@@ -249,8 +347,44 @@ st.write(
     "rainfall, previous rockfall history, and temperature."
 )
 
+
+# --------------------------------------------------
+# DATASET INFORMATION
+# --------------------------------------------------
+
+st.subheader("🧪 Dataset")
+
+st.write(
+    "The current prototype was evaluated using a synthetic "
+    "dataset containing 1,500 samples and five environmental "
+    "and geological input features."
+)
+
+st.write(
+    "The dataset contains 900 rockfall-risk samples and "
+    "600 non-rockfall samples."
+)
+
+
+# --------------------------------------------------
+# RESEARCH NOTICE
+# --------------------------------------------------
+
 st.caption(
-    "Prototype notice: Predictions are based on the current "
-    "development dataset and should not be used as a real-world "
-    "safety or emergency decision system."
+    "Research prototype: The dataset is synthetic and the "
+    "reported model performance is intended for development "
+    "and research evaluation only."
+)
+
+
+# --------------------------------------------------
+# SAFETY DISCLAIMER
+# --------------------------------------------------
+
+st.warning(
+    "⚠️ Safety Disclaimer: GeoPulse is not a certified "
+    "rockfall warning or emergency decision system. "
+    "Predictions should not be used as a substitute for "
+    "professional geological assessment, field monitoring, "
+    "or emergency-management procedures."
 )
