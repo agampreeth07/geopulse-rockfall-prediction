@@ -1,3 +1,4 @@
+﻿```python
 import streamlit as st
 import sys
 from pathlib import Path
@@ -106,7 +107,6 @@ with col2:
         value=21.0,
         step=1.0,
     )
-
 
 st.divider()
 
@@ -250,7 +250,6 @@ with metric2:
 
 st.subheader("Model Evaluation Visualizations")
 
-
 image_col1, image_col2 = st.columns(2)
 
 
@@ -290,7 +289,6 @@ with image_col1:
         st.warning(
             "Confusion matrix image not found."
         )
-
 
     if roc_curve_path.exists():
 
@@ -388,3 +386,4 @@ st.warning(
     "professional geological assessment, field monitoring, "
     "or emergency-management procedures."
 )
+```
